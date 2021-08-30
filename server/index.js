@@ -1,28 +1,25 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const app = express();
 
 const PoemModel = require('./models/Poem');
 
 app.use(express.json());
+app.use(cors());
 
 mongoose.connect('mongodb+srv://poems_user:poems_cow_414@poems.xutkv.mongodb.net/poems?retryWrites=true&w=majority', {
     useNewUrlParser: true,
 });
 
-app.get('/', async (req, res) => {
-    const poem = new PoemModel({
-        date: '12-09-2020',
-        text: 'Наша Таня громко плачет, уронила в речку мячик. Тише, Танечка, не плач, не утонет в речке мяч.',
-        status: 1,
-    });
+app.get('/poems', async (req, res) => {
+    PoemModel.find({}, (err, result) => {
+        if (err) {
+            res.send(err)
+        }
 
-    try {
-        await poem.save();
-        res.send('data inserted');
-    } catch(err) {
-        console.log(err);
-    }
+        res.send(result)
+    })
 });
 
 app.listen(3001, () => {

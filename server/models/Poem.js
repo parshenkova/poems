@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const PoemSchema = new mongoose.Schema({
     date: { type: String, required: true },
     text: { type: String, required: true },
+    title: {type: String, required: true },
     status: { type: Number, required: true },
 });
 
