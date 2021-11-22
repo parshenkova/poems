@@ -22,6 +22,16 @@ app.get('/poems', async (req, res) => {
     })
 });
 
+app.post('/insert', async (req, res) => {
+    const poem = new PoemModel({ text: req.body.text, date: req.body.date, status: req.body.status, title: req.body.title });
+    try {
+        await poem.save();
+        res.send('Poem created');
+    } catch(err) {
+        console.log(err);
+    }
+});
+
 app.listen(3001, () => {
     console.log('Server is running on port 3001');
 });
